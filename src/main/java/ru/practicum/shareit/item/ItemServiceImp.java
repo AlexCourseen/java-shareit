@@ -64,8 +64,7 @@ public class ItemServiceImp implements ItemService {
         Item updatedItem = itemRepository.getItem(itemId)
                 .map(item -> ItemMapper.updateFields(item, itemFields))
                 .orElseThrow(() -> new NotFoundException("Вещь с ID: " + itemId + " не найдена"));
-        updatedItem = itemRepository.updateItem(updatedItem);
-        return ItemMapper.mapToItemDto(updatedItem);
+        return ItemMapper.mapToItemDto(itemRepository.updateItem(updatedItem));
     }
 
     @Override
@@ -73,15 +72,13 @@ public class ItemServiceImp implements ItemService {
         if (!isUserExist(userId)) {
             throw new NotFoundException("Пользователь с ID: " + userId + " не найден");
         }
-        String lowerText = text.toLowerCase();
-        Collection<Item> items = itemRepository.getItems(userId).stream()
+        String lowerText = text.toLowerCase().trim();
+        return itemRepository.getItems(userId).stream()
                 .filter(Item::isAvailable)
                 .filter(item ->
                         item.getName().toLowerCase().contains(lowerText)
                                 || item.getDescription().toLowerCase().contains(lowerText)
                 )
-                .toList();
-        return items.stream()
                 .map(ItemMapper::mapToItemDto)
                 .toList();
     }
