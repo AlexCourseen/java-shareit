@@ -36,10 +36,10 @@ public class ItemServiceImp implements ItemService {
                 .orElseThrow(() -> new NotFoundException("Вещь с ID: " + id + " не найдена"));
         List<CommentDto> comments = commentDtos(item.getId());
         ItemBookingDto itemBookingDto = ItemMapper.mapToItemBookingDto(item,
-                bookingRepository.findLastBookingOfItem(item.getId(), Status.APPROVED, LocalDateTime.now()).
-                        stream().findFirst().orElse(null),
-                bookingRepository.findNextBookingOfItem(item.getId(), Status.REJECTED, LocalDateTime.now()).
-                        stream().findFirst().orElse(null));
+                bookingRepository.findLastBookingOfItem(item.getId(), Status.APPROVED, LocalDateTime.now())
+                        .stream().findFirst().orElse(null),
+                bookingRepository.findNextBookingOfItem(item.getId(), Status.REJECTED, LocalDateTime.now())
+                        .stream().findFirst().orElse(null));
         itemBookingDto.setComments(comments);
         return itemBookingDto;
     }
@@ -54,10 +54,10 @@ public class ItemServiceImp implements ItemService {
 
         Collection<ItemBookingDto> itemBookingDtos = items.stream()
                 .map(item -> ItemMapper.mapToItemBookingDto(item,
-                        bookingRepository.findLastBookingOfItem(item.getId(), Status.APPROVED, now).
-                                stream().findFirst().orElse(null),
-                        bookingRepository.findNextBookingOfItem(item.getId(), Status.REJECTED, now).
-                                stream().findFirst().orElse(null)))
+                        bookingRepository.findLastBookingOfItem(item.getId(), Status.APPROVED, now)
+                                .stream().findFirst().orElse(null),
+                        bookingRepository.findNextBookingOfItem(item.getId(), Status.REJECTED, now)
+                                .stream().findFirst().orElse(null)))
                 .collect(Collectors.toList());
         itemBookingDtos.forEach(
                 item -> item.setComments(commentDtos(item.getId()))
