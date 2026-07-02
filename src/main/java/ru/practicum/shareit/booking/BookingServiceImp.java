@@ -33,21 +33,7 @@ public class BookingServiceImp implements BookingService {
         if (!item.isAvailable()) {
             throw new ValidationException("Вещь с ID: " + itemId + " недоступна для брони");
         }
-        if (request.getStart() == null || request.getStart().toString().isEmpty()) {
-            throw new ValidationException("Должны быть указаны ДатаВремя начала брони");
-        }
-        if (request.getStart().isBefore(LocalDateTime.now())) {
-            throw new ValidationException("ДатаВремя начала брони не должны быть в прошлом");
-        }
-        if (request.getEnd() == null || request.getEnd().toString().isEmpty()) {
-            throw new ValidationException("Должны быть указаны ДатаВремя окончания брони");
-        }
-        if (request.getEnd().isBefore(LocalDateTime.now())) {
-            throw new ValidationException("ДатаВремя окончания брони не должны быть в прошлом");
-        }
-        if (request.getStart().equals(request.getEnd())) {
-            throw new ValidationException("ДатаВремя начала и окончания брони не должны быть равными");
-        }
+        checkBooking(request);
         Booking booking = BookingMapper.mapToBooking(request);
         booking.setItem(item);
         booking.setBooker(booker);
@@ -127,4 +113,21 @@ public class BookingServiceImp implements BookingService {
                 .toList();
     }
 
+    private void checkBooking(NewBookingRequest request) {
+        if (request.getStart() == null || request.getStart().toString().isEmpty()) {
+            throw new ValidationException("Должны быть указаны ДатаВремя начала брони");
+        }
+        if (request.getStart().isBefore(LocalDateTime.now())) {
+            throw new ValidationException("ДатаВремя начала брони не должны быть в прошлом");
+        }
+        if (request.getEnd() == null || request.getEnd().toString().isEmpty()) {
+            throw new ValidationException("Должны быть указаны ДатаВремя окончания брони");
+        }
+        if (request.getEnd().isBefore(LocalDateTime.now())) {
+            throw new ValidationException("ДатаВремя окончания брони не должны быть в прошлом");
+        }
+        if (request.getStart().equals(request.getEnd())) {
+            throw new ValidationException("ДатаВремя начала и окончания брони не должны быть равными");
+        }
+    }
 }

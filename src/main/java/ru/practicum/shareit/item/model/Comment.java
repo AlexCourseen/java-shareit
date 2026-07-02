@@ -1,5 +1,6 @@
 package ru.practicum.shareit.item.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,6 +23,7 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "text")
     private String text;
 
     @ManyToOne
@@ -32,6 +34,7 @@ public class Comment {
     @JoinColumn(name = "item_id")
     private Item item;
 
+    @Column(name = "created")
     private LocalDateTime created;
 
 }
