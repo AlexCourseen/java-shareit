@@ -13,6 +13,8 @@ import ru.practicum.shareit.item.dto.NewItemRequest;
 import ru.practicum.shareit.item.dto.UpdateItemRequest;
 import ru.practicum.shareit.item.model.Comment;
 import ru.practicum.shareit.item.model.Item;
+import ru.practicum.shareit.request.ItemRequestRepository;
+import ru.practicum.shareit.request.model.ItemRequest;
 import ru.practicum.shareit.user.UserRepository;
 import ru.practicum.shareit.user.model.User;
 
@@ -29,6 +31,7 @@ public class ItemServiceImp implements ItemService {
     private final UserRepository userRepository;
     private final BookingRepository bookingRepository;
     private final CommentRepository commentRepository;
+    private final ItemRequestRepository itemRequestRepository;
 
     @Override
     public ItemBookingDto getItem(long id) {
@@ -66,20 +69,26 @@ public class ItemServiceImp implements ItemService {
     }
 
     @Override
-    public ItemDto createItem(NewItemRequest request, long userId) {
+    public ItemDto createItem(NewItemRequest newItem, long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException("Пользователь с ID: " + userId + " не найден"));
-        if (request.getName() == null || request.getName().isEmpty()) {
+        if (newItem.getName() == null || newItem.getName().isEmpty()) {
             throw new ValidationException("Имя должно быть указано");
         }
-        if (request.getDescription() == null || request.getDescription().isEmpty()) {
+        if (newItem.getDescription() == null || newItem.getDescription().isEmpty()) {
             throw new ValidationException("Описание должно быть указано");
         }
-        if (request.getAvailable() == null) {
+        if (newItem.getAvailable() == null) {
             throw new ValidationException("Доступность должна быть указана");
         }
-        Item item = ItemMapper.mapToItem(request);
+        Item item = ItemMapper.mapToItem(newItem);
         item.setOwner(user);
+        long requestId = newItem.getRequestId();
+        if (requestId != 0) {
+            ItemRequest request = itemRequestRepository.findById(requestId)
+                    .orElseThrow(() -> new NotFoundException("Запрос с ID: " + requestId + " не найден"));
+            item.setRequest(request);
+        }
         itemRepository.save(item);
         return ItemMapper.mapToItemDto(item);
     }
@@ -96,14 +105,14 @@ public class ItemServiceImp implements ItemService {
     }
 
     @Override
-    public Collection<ItemDto> search(long userId, String text) {
+    public Collection<ItemDto> search(long userId, java.lang.String text) {
         if (!isUserExist(userId)) {
             throw new NotFoundException("Пользователь с ID: " + userId + " не найден");
         }
         if (text.isBlank() || text == null) {
             return Collections.emptyList();
         }
-        String lowerText = text.toLowerCase().trim();
+        java.lang.String lowerText = text.toLowerCase().trim();
         return itemRepository.search(lowerText).stream()
                 .map(ItemMapper::mapToItemDto)
                 .toList();
@@ -111,7 +120,7 @@ public class ItemServiceImp implements ItemService {
 
     @Override
     public CommentDto addComment(long authorId, long itemId, Comment comment) {
-        String text = comment.getText().trim();
+        java.lang.String text = comment.getText().trim();
         if (text.isBlank() || text == null) {
             throw new ValidationException("Текст отзыва не может быть пустым");
         }

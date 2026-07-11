@@ -6,6 +6,7 @@ import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.item.dto.CommentDto;
 import ru.practicum.shareit.item.dto.ItemBookingDto;
 import ru.practicum.shareit.item.dto.ItemDto;
+import ru.practicum.shareit.item.dto.ItemForRequestDto;
 import ru.practicum.shareit.item.dto.ItemWithCommentsDto;
 import ru.practicum.shareit.item.dto.NewItemRequest;
 import ru.practicum.shareit.item.dto.UpdateItemRequest;
@@ -50,6 +51,14 @@ public final class ItemMapper {
         dto.setDescription(item.getDescription());
         dto.setAvailable(item.isAvailable());
         dto.setComments(comments);
+        return dto;
+    }
+
+    public static ItemForRequestDto mapToItemForRequestDto(Item item) {
+        ItemForRequestDto dto = new ItemForRequestDto();
+        dto.setId(item.getId());
+        dto.setName(item.getName());
+        dto.setOwnerId(item.getOwner().getId());
         return dto;
     }
 

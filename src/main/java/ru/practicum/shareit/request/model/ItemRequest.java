@@ -1,4 +1,4 @@
-package ru.practicum.shareit.item.model;
+package ru.practicum.shareit.request.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,47 +10,39 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
-import ru.practicum.shareit.request.model.ItemRequest;
 import ru.practicum.shareit.user.model.User;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "items", schema = "public")
-public class Item {
+@Table(name = "requests", schema = "public")
+public class ItemRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name")
-    private String name;
-
     @Column(name = "description")
     private String description;
 
-    @Column(name = "available")
-    private boolean available;
-
     @ManyToOne
-    @JoinColumn(name = "owner_id")
-    private User owner;
+    @JoinColumn(name = "author_id")
+    private User author;
 
-    @ManyToOne
-    @JoinColumn(name = "request_id")
-    private ItemRequest request;
+    @Column(name = "created")
+    private LocalDateTime created;
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        Item item = (Item) o;
-        return available == item.available && Objects.equals(id, item.id) && Objects.equals(name, item.name)
-                && Objects.equals(description, item.description) && Objects.equals(owner, item.owner);
+        ItemRequest that = (ItemRequest) o;
+        return Objects.equals(id, that.id) && Objects.equals(description, that.description) && Objects.equals(author, that.author) && Objects.equals(created, that.created);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, description, available, owner);
+        return Objects.hash(id, description, author, created);
     }
 }
