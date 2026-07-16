@@ -61,6 +61,5 @@ public class ItemRequestServiceTest {
         assertThat(itemRequests.get(1).getId(), equalTo(itemRequest2.getId()));
         assertThat(itemRequests.get(1).getDescription(), equalTo(itemRequest2.getDescription()));
         assertThat(itemRequests.get(1).getCreated(), equalTo(itemRequest2.getCreated()));
-
     }
 }
