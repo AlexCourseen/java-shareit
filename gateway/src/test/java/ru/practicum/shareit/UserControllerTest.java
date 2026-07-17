@@ -42,7 +42,7 @@ public class UserControllerTest {
     private UserClient userClient;
 
     @Test
-    void getUser_shouldReturnUser() throws Exception {
+    void getUser() throws Exception {
         Map<String, Object> userResponse = Map.of(
                 "id", 1,
                 "name", "Иван",
@@ -62,7 +62,7 @@ public class UserControllerTest {
     }
 
     @Test
-    void getUsers_shouldReturnList() throws Exception {
+    void getUsers() throws Exception {
         Map<String, Object> userResponse = Map.of(
                 "id", 1,
                 "name", "Иван",
@@ -77,12 +77,12 @@ public class UserControllerTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
-                .andExpect(jsonPath("$.id", is(1)))
-                .andExpect(jsonPath("$.name", is("Иван")));
+                .andExpect(jsonPath("$[0].id", is(1)))
+                .andExpect(jsonPath("$[0].name", is("Иван")));
     }
 
     @Test
-    void createUser_shouldReturnCreatedUser() throws Exception {
+    void createUser() throws Exception {
         NewUserRequest request = new NewUserRequest();
         request.setName("Иван");
         request.setEmail("test@mail.com");
@@ -108,7 +108,7 @@ public class UserControllerTest {
     }
 
     @Test
-    void updateUser_shouldReturnUpdatedUser() throws Exception {
+    void updateUser() throws Exception {
         UpdateUserRequest request = new UpdateUserRequest();
         request.setName("Иван Сильвер");
 
@@ -132,7 +132,7 @@ public class UserControllerTest {
     }
 
     @Test
-    void deleteUser_shouldReturn200() throws Exception {
+    void deleteUser() throws Exception {
         when(userClient.delUser(anyLong()))
                 .thenReturn(ResponseEntity.ok().build());
 

@@ -43,7 +43,7 @@ public class BookingControllerTest {
     private BookingClient bookingClient;
 
     @Test
-    void createBooking_shouldReturnBooking() throws Exception {
+    void createBooking() throws Exception {
         NewBookingRequest request = new NewBookingRequest();
         request.setItemId(1L);
         request.setStart(LocalDateTime.of(2026, 7, 20, 10, 0));
@@ -77,7 +77,7 @@ public class BookingControllerTest {
     }
 
     @Test
-    void approveBooking_shouldReturnApprovedBooking() throws Exception {
+    void approveBooking() throws Exception {
         Map<String, Object> bookingResponse = Map.of(
                 "id", 1,
                 "status", "APPROVED"
@@ -97,7 +97,7 @@ public class BookingControllerTest {
     }
 
     @Test
-    void getBooking_shouldReturnBooking() throws Exception {
+    void getBooking() throws Exception {
         Map<String, Object> bookingResponse = Map.of(
                 "id", 1,
                 "status", "APPROVED"
@@ -116,7 +116,7 @@ public class BookingControllerTest {
     }
 
     @Test
-    void getAllBookings_shouldReturnList() throws Exception {
+    void getAllBookings() throws Exception {
         Map<String, Object> bookingResponse = Map.of(
                 "id", 1,
                 "status", "WAITING"
@@ -137,7 +137,7 @@ public class BookingControllerTest {
     }
 
     @Test
-    void getAllBookingsByOwner_shouldReturnList() throws Exception {
+    void getAllBookingsByOwner() throws Exception {
         Map<String, Object> bookingResponse = Map.of(
                 "id", 1,
                 "status", "APPROVED"

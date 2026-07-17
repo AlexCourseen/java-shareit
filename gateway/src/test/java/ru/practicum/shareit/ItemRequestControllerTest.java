@@ -39,7 +39,7 @@ public class ItemRequestControllerTest {
     private ItemRequestClient itemRequestClient;
 
     @Test
-    void createItemRequest_shouldReturnRequest() throws Exception {
+    void createItemRequest() throws Exception {
         NewItemRequestRequest request = new NewItemRequestRequest();
         request.setDescription("Нужна дрель");
 
@@ -67,7 +67,7 @@ public class ItemRequestControllerTest {
     }
 
     @Test
-    void getItemRequest_shouldReturnRequest() throws Exception {
+    void getItemRequest() throws Exception {
         Map<String, Object> requestResponse = Map.of(
                 "id", 1,
                 "description", "Нужна дрель",
@@ -87,7 +87,7 @@ public class ItemRequestControllerTest {
     }
 
     @Test
-    void getItemRequests_shouldReturnList() throws Exception {
+    void getItemRequests() throws Exception {
         Map<String, Object> requestResponse = Map.of(
                 "id", 1,
                 "description", "Нужна дрель"
@@ -102,12 +102,12 @@ public class ItemRequestControllerTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
-                .andExpect(jsonPath("$.id", is(1)))
-                .andExpect(jsonPath("$.description", is("Нужна дрель")));
+                .andExpect(jsonPath("$[0].id", is(1)))
+                .andExpect(jsonPath("$[0].description", is("Нужна дрель")));
     }
 
     @Test
-    void getAllItemRequests_shouldReturnList() throws Exception {
+    void getAllItemRequests() throws Exception {
         Map<String, Object> requestResponse = Map.of(
                 "id", 2,
                 "description", "Нужен молоток"
@@ -122,7 +122,7 @@ public class ItemRequestControllerTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
-                .andExpect(jsonPath("$.id", is(2)))
-                .andExpect(jsonPath("$.description", is("Нужен молоток")));
+                .andExpect(jsonPath("$[0].id", is(2)))
+                .andExpect(jsonPath("$[0].description", is("Нужен молоток")));
     }
 }

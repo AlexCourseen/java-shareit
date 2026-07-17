@@ -42,7 +42,7 @@ public class ItemControllerTest {
     private ItemClient itemClient;
 
     @Test
-    void getItems_shouldReturnItemsList() throws Exception {
+    void getItems() throws Exception {
         Map<String, Object> itemResponse = Map.of(
                 "id", 1,
                 "name", "Дрель",
@@ -66,7 +66,7 @@ public class ItemControllerTest {
     }
 
     @Test
-    void getItem_shouldReturnItem() throws Exception {
+    void getItem() throws Exception {
         Map<String, Object> itemResponse = Map.of(
                 "id", 42,
                 "name", "Отвертка",
@@ -89,7 +89,7 @@ public class ItemControllerTest {
     }
 
     @Test
-    void createItem_shouldReturnCreatedItem() throws Exception {
+    void createItem() throws Exception {
         NewItemRequest request = new NewItemRequest();
         request.setName("Молоток");
         request.setDescription("Стальной");
@@ -119,7 +119,7 @@ public class ItemControllerTest {
     }
 
     @Test
-    void updateItem_shouldReturnUpdatedItem() throws Exception {
+    void updateItem() throws Exception {
         UpdateItemRequest request = new UpdateItemRequest();
         request.setName("Новый молоток");
 
@@ -146,7 +146,7 @@ public class ItemControllerTest {
     }
 
     @Test
-    void searchItem_shouldReturnFoundItems() throws Exception {
+    void searchItem() throws Exception {
         Map<String, Object> itemResponse = Map.of(
                 "id", 3,
                 "name", "Пила",
@@ -170,7 +170,7 @@ public class ItemControllerTest {
     }
 
     @Test
-    void addComment_shouldReturnCreatedComment() throws Exception {
+    void addComment() throws Exception {
         Map<String, String> commentBody = Map.of("text", "Все супер!");
         Map<String, Object> commentResponse = Map.of(
                 "id", 10,
