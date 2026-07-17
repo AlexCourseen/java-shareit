@@ -31,7 +31,7 @@ public class BookingClient extends BaseClient {
     }
 
     public ResponseEntity<Object> createBooking(NewBookingRequest booking, long userId) {
-        return post("/", userId, booking);
+        return post("", userId, booking);
     }
 
     public ResponseEntity<Object> approveBooking(long userId, long bookingId, boolean approved) {
@@ -41,7 +41,7 @@ public class BookingClient extends BaseClient {
                 "approved", approved
         );
 
-        return patch(path, userId, parameters);
+        return patch(path, userId, parameters, null);
     }
 
     public ResponseEntity<Object> getAllBookings(long userId, String state) {
