@@ -1,6 +1,5 @@
 package ru.practicum.shareit.user.dto;
 
-import jakarta.validation.constraints.Email;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,7 +7,6 @@ import lombok.Setter;
 @Setter
 public class UpdateUserRequest {
     private String name;
-    @Email
     private String email;
 
     public boolean hasName() {
